@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\Estudiantes;
 
 class PagesController extends Controller
 {
@@ -10,14 +11,50 @@ class PagesController extends Controller
         return view('welcome');
     }
 
+    public function fnEstDetalle($id){
+        $xDetAlumnos = Estudiantes::findOrFail($id);
+        return view('Estudiante.pagDetalle',compact('xDetAlumnos'));
+    }
+    public function fnRegistrar (Request $request) {
+        $request ->validate([
+            'codEst'=>'required',
+            'nomEst'=>'required',
+            'apeEst'=>'required',
+            'fnaEst'=>'required',
+            'turMat'=>'required',
+            'semMat'=>'required',
+            'estMat'=>'required',
+
+        ]);
+
+        $nuevoEstudiante = new Estudiantes;
+
+        $nuevoEstudiante->codEst = $request->codEst;
+        $nuevoEstudiante->nomEst = $request->nomEst;
+        $nuevoEstudiante->apeEst = $request->apeEst;
+        $nuevoEstudiante->fnaEst = $request->fnaEst;
+        $nuevoEstudiante->turMat = $request->turMat;
+        $nuevoEstudiante->semMat = $request->semMat;
+        $nuevoEstudiante->estMat = $request->estMat;
+
+        $nuevoEstudiante->save();
+
+        return back()->with('msj','Se registro con exito...');
+
+
+    }
     public function fnLista(){
-        return view('pagLista');
+        $xAlumnos = Estudiantes::all();
+        return view('pagLista', compact('xAlumnos'));
     }
 
-    public function fnGaleria ($numero=0){
+    public function fnGaleria($numero=null) {
         $valor = $numero;
         $otro = 25;
 
-        return view ('pagGaleria', compac('valor','otro'));
+        return view('pagGaleria', compact('valor', 'otro'));
     }
+
+
+    //
 }
