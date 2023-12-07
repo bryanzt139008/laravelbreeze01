@@ -33,26 +33,26 @@
                 </div>
         @endif
 
-        <input type="text" name="codEst" placeholder="Código" class="form-control mb-2">
-        <input type="text" name="nomEst" placeholder="Nombres" class="form-control mb-2">
-        <input type="text" name="apeEst" placeholder="Apellidos" class="form-control mb-2">
-        <input type="date" name="fnaEst" placeholder="Fecha Nac." class="form-control mb-2">
+        <input type="text" name="codEst" placeholder="Código" value="{{old('codEst')}}" class="form-control mb-2">
+        <input type="text" name="nomEst" placeholder="Nombres" value="{{old('nomEst')}}" class="form-control mb-2">
+        <input type="text" name="apeEst" placeholder="Apellidos" value="{{old('apeEst')}}" class="form-control mb-2">
+        <input type="date" name="fnaEst" placeholder="Fecha Nac." value="{{old('fnEst')}}" class="form-control mb-2">
         <select name="turMat" class="form-control mb-2">
-            <option name="">Seleccione...</option>
-            <option name="1">Turno Día</option>
-            <option name="2">Turno Noche</option>
-            <option name="3">Turno Tarde</option>
+            <option value="">Seleccione...</option>
+            <option value="1">Turno Día</option>
+            <option value="2">Turno Noche</option>
+            <option value="3">Turno Tarde</option>
         </select>
         <select name="semMat" class="form-control mb-2">
-            <option name="">Seleccione...</option>
+            <option value="">Seleccione...</option>
             @for($i=1; $i < 7; $i++)
-                <option name="{{$i}}">Semestre {{$i}}</option>
+                <option value="{{$i}}">Semestre {{$i}}</option>
             @endfor
         </select>
         <select name="estMat" class="form-control mb-2">
-            <option name="">Seleccione...</option>
-            <option name="0">Inactivo</option>
-            <option name="1">Activo</option>
+            <option value="">Seleccione...</option>
+            <option value="0">Inactivo</option>
+            <option value="1">Activo</option>
         </select>
         <button class="btn btn-primary btn-block" type="submit">Agregar</button>
     </form>    
@@ -76,7 +76,17 @@
                     <a href="{{ route('Estudiante.xDetalle', $item->id) }}">
                         {{ $item->apeEst }}, {{ $item->nomEst }}
                     </a>
-                <td>A-----X</td>
+                </td>
+                <td>
+                    <form action="{{route('Estudiante.xEliminar',$item->id)}}" method="post" class="d-inline">
+                        @method('DELETE')
+                        @csrf
+                        <button type="submit" class="btn btn-danger btn-sm">x</button>
+                    </form>
+                    <a class="btn btn-warning btn-sm" href="{{ route('Estudiante.xActualizar', $item->id) }}">
+                    ...A
+                    </a>
+                </td>
             </tr>
             @endforeach
         </tbody>
